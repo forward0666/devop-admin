@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "security.fullname" . }}
+  labels:
+    app: {{ include "security.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "security.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "security.name" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8089
+              name: http
+          env:
+            - name: TZ
+              value: "{{ .Values.timezone }}"
+            - name: JAVA_OPTS
+              value: "{{ .Values.javaOpts }}"
+            - name: NACOS_ADDR
+              value: "{{ .Values.nacos.addr }}"
+            - name: NACOS_NAMESPACE
+              value: "{{ .Values.nacos.namespace }}"
+            - name: NACOS_GROUP
+              value: "{{ .Values.nacos.group }}"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      imagePullSecrets:
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}

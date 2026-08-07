@@ -1,0 +1,30 @@
+replicaCount: 1
+
+image:
+  repository: registry.cn-hangzhou.aliyuncs.com/devops-admin/login
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: aliyun-registry
+
+service:
+  type: ClusterIP
+  port: 8085
+
+timezone: Asia/Shanghai
+
+javaOpts: "-Xms256m -Xmx512m"
+
+nacos:
+  addr: "nacos.middleware:8848"
+  namespace: "devops"
+  group: "devops"
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 200m
+  limits:
+    memory: 512Mi
+    cpu: 500m
