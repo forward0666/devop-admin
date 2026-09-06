@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "paperclip.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ include "paperclip.name" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ include "paperclip.name" . }}

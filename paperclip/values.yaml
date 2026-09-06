@@ -1,0 +1,82 @@
+replicaCount: 1
+
+image:
+  repository: 192.168.86.12:32477/devops-admin/paperclip
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3100
+
+ingress:
+  enabled: true
+  className: nginx
+  host: paperclip.192.168.86.12.nip.io
+  tls:
+    enabled: true
+    secretName: wildcard-nip-tls
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+
+nodeSelector:
+  kubernetes.io/hostname: worker
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 500m
+  limits:
+    memory: 2Gi
+    cpu: 2000m
+
+env:
+  HOST: "0.0.0.0"
+  PORT: "3100"
+  PAPERCLIP_HOME: /paperclip
+  SERVE_UI: "true"
+  PAPERCLIP_DEPLOYMENT_MODE: authenticated
+  PAPERCLIP_DEPLOYMENT_EXPOSURE: private
+  PAPERCLIP_PUBLIC_URL: "https://paperclip.192.168.86.12.nip.io"
+
+secret:
+  name: paperclip-secrets
+  DATABASE_URL: "postgres://paperclip:PaperclipDB2026!@postgres:5432/paperclip"
+  BETTER_AUTH_SECRET: "a3f8b2c1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0"
+
+dataVolume:
+  enabled: true
+  storageClass: nfs
+  size: 10Gi
+  mountPath: /paperclip
+
+# PostgreSQL sub-chart (embedded)
+postgres:
+  enabled: true
+  image: postgres:17-alpine
+  user: paperclip
+  password: "PaperclipDB2026!"
+  database: paperclip
+  storageClass: nfs
+  storageSize: 10Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 1000m
+
+probes:
+  readiness:
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 30
+  liveness:
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    timeoutSeconds: 5
+    failureThreshold: 10
