@@ -5,6 +5,9 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+imagePullSecrets:
+  - name: harbor-creds
+
 service:
   type: ClusterIP
   port: 3100
