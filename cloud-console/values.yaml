@@ -1,0 +1,42 @@
+replicaCount: 1
+
+image:
+  repository: 192.168.86.12:32477/devops-admin/cloud-console
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: harbor-creds
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: console.192.168.86.12.nip.io
+  tls:
+    enabled: true
+    secretName: wildcard-nip-tls
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+
+nodeSelector:
+  kubernetes.io/hostname: worker
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 250m
+  limits:
+    memory: 512Mi
+    cpu: 1000m
+
+probes:
+  readiness:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+  liveness:
+    initialDelaySeconds: 30
+    periodSeconds: 15
