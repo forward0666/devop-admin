@@ -9,7 +9,7 @@ imagePullSecrets:
   - name: harbor-creds
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 3100
 
 ingress:
