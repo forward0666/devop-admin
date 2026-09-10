@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: 192.168.86.12:32477/devops-admin/cloud-console
-  tag: latest
+  repository: harbor.192.168.86.12.nip.io/devops-admin/cloud-console
+  tag: "20260910-092047"
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
