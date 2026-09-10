@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: harbor.192.168.86.12.nip.io/devops-admin/cloud-console
+  repository: harbor.192.168.86.12.nip.io/devops-admin/iam-console
   tag: "20260910-104526"
   pullPolicy: IfNotPresent
 
@@ -15,7 +15,7 @@ service:
 ingress:
   enabled: true
   className: nginx
-  host: console.192.168.86.12.nip.io
+  host: iam.192.168.86.12.nip.io
   tls:
     enabled: true
     secretName: wildcard-nip-tls
