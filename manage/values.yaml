@@ -1,11 +1,12 @@
 replicaCount: 1
 
 image:
-  repository: registry.cn-hangzhou.aliyuncs.com/devops-admin/manage
+  repository: 192.168.86.12:32477/devops-admin/manage
   tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
+  - name: harbor-creds
   - name: aliyun-registry
 
 service:

@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: harbor.192.168.86.12.nip.io/devops-admin/iam-console
-  tag: "20260910-104526"
+  tag: ""
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
