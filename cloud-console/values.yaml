@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: harbor.192.168.86.12.nip.io/devops-admin/cloud-console
-  tag: "20260910-132023"
+  tag: "20260910-132557"
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
