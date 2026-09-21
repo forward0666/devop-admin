@@ -1,0 +1,6 @@
+apiVersion: v2
+name: service-console
+description: Service Management Console - standalone service catalog CRUD UI
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
