@@ -21,6 +21,18 @@ nacos:
   namespace: "devops"
   group: "devops"
 
+probes:
+  readiness:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  liveness:
+    initialDelaySeconds: 20
+    periodSeconds: 15
+    timeoutSeconds: 5
+    failureThreshold: 3
+
 resources:
   requests:
     memory: 256Mi

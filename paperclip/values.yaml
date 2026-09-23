@@ -47,7 +47,7 @@ env:
 secret:
   name: paperclip-secrets
   DATABASE_URL: "postgres://paperclip:PaperclipDB2026!@postgres:5432/paperclip"
-  BETTER_AUTH_SECRET: "a3f8b2c1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0"
+  # BETTER_AUTH_SECRET: "..."  # moved to external-secrets when enabled
 
 dataVolume:
   enabled: true
@@ -60,7 +60,7 @@ postgres:
   enabled: true
   image: postgres:17-alpine
   user: paperclip
-  password: "PaperclipDB2026!"
+  # password: "PaperclipDB2026!"  # moved to external-secrets when enabled
   database: paperclip
   storageClass: nfs
   storageSize: 10Gi
@@ -83,3 +83,14 @@ probes:
     periodSeconds: 15
     timeoutSeconds: 5
     failureThreshold: 10
+
+externalSecret:
+  enabled: false
+  refreshInterval: 1h
+  store:
+    name: main
+    kind: ClusterSecretStore
+  remoteRefs:
+    databaseUrl: /devops-admin/paperclip/database-url
+    betterAuthSecret: /devops-admin/paperclip/better-auth-secret
+    postgresPassword: /devops-admin/paperclip/postgres-password
